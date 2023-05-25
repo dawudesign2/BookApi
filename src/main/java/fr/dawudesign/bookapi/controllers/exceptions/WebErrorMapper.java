@@ -5,8 +5,9 @@ import org.springframework.http.HttpStatus;
 public class WebErrorMapper {
 
     public static WebError map(Exception e) {
+        WebError result;
         if (e instanceof ParametrizeMessageException) {
-            return new WebError(
+            result = new WebError(
                     HttpStatus.BAD_REQUEST.value(),
                     HttpStatus.BAD_REQUEST,
                     null,
@@ -15,14 +16,16 @@ public class WebErrorMapper {
                     ((ParametrizeMessageException) e).getParams()
 
             );
+        } else {
+            result = new WebError(
+                    HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                    HttpStatus.INTERNAL_SERVER_ERROR,
+                    null,
+                    e.getMessage(),
+                    e.getMessage(),
+                    null
+            );
         }
-        return new WebError(
-                HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                null,
-                e.getMessage(),
-                e.getMessage(),
-                null
-        );
+        return result;
     }
 }
