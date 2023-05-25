@@ -15,7 +15,10 @@ public class ApiController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public List<Book> getBooks() {
+    public List<Book> getBooks(@RequestParam(required = false) String title) {
+        if (title != null) {
+            return bookService.findByTitleContaining(title);
+        }
         return bookService.getAllBooks();
     }
 

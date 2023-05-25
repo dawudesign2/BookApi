@@ -1,8 +1,10 @@
 package fr.dawudesign.bookapi.services;
 
+import fr.dawudesign.bookapi.controllers.exceptions.ParametrizeMessageException;
 import fr.dawudesign.bookapi.entities.Book;
 import fr.dawudesign.bookapi.repositories.BookRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +23,13 @@ public class BookImpl implements BookService {
     @Override
     public Book getBookById(Long id) {
         Optional<Book> book = bookRepository.findById(id);
-        return book.orElse(null);
+        return book.orElseThrow(() -> new ParametrizeMessageException(
+                HttpStatus.NOT_FOUND,
+                "Book.entity.not.found ",
+                "Book with id " + id + " not found",
+                id,
+                "Book"
+        ));
     }
 
     @Override
@@ -33,6 +41,11 @@ public class BookImpl implements BookService {
     public Book updateBook(Long id, Book book) {
         book.setId(id);
         return bookRepository.save(book);
+    }
+
+    @Override
+    public List<Book> findByTitleContaining(String title) {
+        return bookRepository.findByTitleContaining(title);
     }
 
     @Override
