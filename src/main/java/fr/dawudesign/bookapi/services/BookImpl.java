@@ -26,7 +26,7 @@ public class BookImpl implements BookService {
         return book.orElseThrow(() -> new ParametrizeMessageException(
                 HttpStatus.NOT_FOUND,
                 "Book.entity.not.found ",
-                "Book with id %s not found",
+                "Book with id: " + id + " not found",
                 id
         ));
     }
@@ -42,7 +42,7 @@ public class BookImpl implements BookService {
             throw new ParametrizeMessageException(
                     HttpStatus.NOT_FOUND,
                     "Book.entity.not.found ",
-                    "Book with id %s not found",
+                    "Book with id: " + id + " not found",
                     id
             );
         }
