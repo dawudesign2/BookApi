@@ -26,9 +26,8 @@ public class BookImpl implements BookService {
         return book.orElseThrow(() -> new ParametrizeMessageException(
                 HttpStatus.NOT_FOUND,
                 "Book.entity.not.found ",
-                "Book with id " + id + " not found",
-                id,
-                "Book"
+                "Book with id %s not found",
+                id
         ));
     }
 
@@ -39,7 +38,14 @@ public class BookImpl implements BookService {
 
     @Override
     public Book updateBook(Long id, Book book) {
-        book.setId(id);
+        if(!bookRepository.existsById(id)) {
+            throw new ParametrizeMessageException(
+                    HttpStatus.NOT_FOUND,
+                    "Book.entity.not.found ",
+                    "Book with id %s not found",
+                    id
+            );
+        }
         return bookRepository.save(book);
     }
 

@@ -11,16 +11,4 @@ public record WebError(
         String codeMessage,
         String defaultMessage,
         Object... params
-) {
-    public static WebError of (ParametrizeMessageException pme) {
-        String defaultMessage = String.format(pme.getDefaultMessage(), pme.getParams());
-        return new WebError(
-                pme.getHttpStatus().value(),
-                pme.getHttpStatus(),
-                new Date(),
-                pme.getCodeMessage(),
-                defaultMessage,
-                pme.getParams()
-        );
-    }
-}
+) { }

@@ -20,9 +20,6 @@ public class ParametrizeMessageException extends RuntimeException {
         this.DefaultMessage = defaultMessage;
         this.params = params;
     }
-    public WebError toWebError() {
-        return  WebError.of(this);
-    }
 
 
 }
