@@ -2,11 +2,10 @@ package fr.dawudesign.bookapi.services;
 
 import fr.dawudesign.bookapi.entities.Book;
 
-import java.util.List;
 
 public interface BookService {
 
-    List<Book> getAllBooks();
+    Iterable<Book> getAllBooks();
 
     Book getBookById(Long id);
 
@@ -14,7 +13,7 @@ public interface BookService {
 
      Book updateBook(Long id, Book book);
 
-     List<Book> findByTitleContaining(String title);
+     Iterable<Book> findByTitleContaining(String title);
 
    void deleteBook(Long id);
 }

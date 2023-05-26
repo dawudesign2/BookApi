@@ -5,8 +5,6 @@ import fr.dawudesign.bookapi.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
@@ -15,7 +13,7 @@ public class ApiController {
     private final BookService bookService;
 
     @GetMapping("/books")
-    public List<Book> getBooks(@RequestParam(required = false) String title) {
+    public Iterable<Book> getBooks(@RequestParam(required = false) String title) {
         if (title != null) {
             return bookService.findByTitleContaining(title);
         }

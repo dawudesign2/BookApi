@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,8 +15,8 @@ public class BookImpl implements BookService {
 
     private final BookRepository bookRepository;
     @Override
-    public List<Book> getAllBooks() {
-        return (List<Book>) bookRepository.findAll();
+    public Iterable<Book> getAllBooks() {
+        return bookRepository.findAll();
     }
 
     @Override
@@ -38,7 +37,10 @@ public class BookImpl implements BookService {
 
     @Override
     public Book updateBook(Long id, Book book) {
-        if(!bookRepository.existsById(id)) {
+        Optional<Book> bookOptional = bookRepository.findById(id);
+        if(bookOptional.isPresent() && bookOptional.get().getId().equals(id)){
+            book.setId(id);
+        } else {
             throw new ParametrizeMessageException(
                     HttpStatus.NOT_FOUND,
                     "Book.entity.not.found ",
@@ -50,7 +52,7 @@ public class BookImpl implements BookService {
     }
 
     @Override
-    public List<Book> findByTitleContaining(String title) {
+    public Iterable<Book> findByTitleContaining(String title) {
         return bookRepository.findByTitleContaining(title);
     }
 
